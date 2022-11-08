@@ -5,6 +5,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import projet.wcs.starter.models.Role;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -20,6 +21,37 @@ public class User {
 
     @Column(nullable = false, length = 64)
     private String password;
+
+    @Column(nullable = false, length = 64)
+    private String firstname;
+
+    @Column(nullable = false, length = 64)
+    private String lastname;
+
+    @Column(nullable = false, length = 64)
+    private String phone;
+
+    @Column(nullable = true)
+    private Date createdAt = new Date();
+
+    @Column(nullable = true)
+    private Date updatedAt = new Date();
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date date) {
+        this.createdAt = date;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date date) {
+        this.updatedAt = date;
+    }
 
     @NotNull(message = "User roles can't be null")
     @ManyToMany
@@ -42,9 +74,14 @@ public class User {
 
     public User() { }
 
-    public User(String email, String password) {
+    public User(String email, String password, String firstname, String lastname, String phone, Date createdAt, Date updatedAt) {
         this.email = email;
         this.password = password;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     public Integer getId() {
@@ -65,5 +102,29 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }
