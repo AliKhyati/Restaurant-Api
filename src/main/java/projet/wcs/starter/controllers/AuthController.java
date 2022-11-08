@@ -78,6 +78,7 @@ public class AuthController {
                         "Refresh token is not in database!"));
     }
 
+    @CrossOrigin
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
 
