@@ -18,6 +18,7 @@ import projet.wcs.starter.services.RefreshTokenService;
 import projet.wcs.starter.services.UserDetailsImpl;
 import projet.wcs.starter.utils.JwtTokenUtil;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -78,7 +79,6 @@ public class AuthController {
                         "Refresh token is not in database!"));
     }
 
-    @CrossOrigin
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
 
@@ -88,8 +88,15 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
-        User user = new User(registerRequest.getEmail(),
-                passwordEncoder.encode(registerRequest.getPassword()));
+        User user = new User(
+                registerRequest.getEmail(),
+                passwordEncoder.encode(registerRequest.getPassword()),
+                registerRequest.getFirstname(),
+                registerRequest.getLastname(),
+                registerRequest.getPhone(),
+                new Date(),
+                new Date()
+        );
 
         Set<String> strRoles = registerRequest.getRole();
         Set<Role> roles = new HashSet<>();
