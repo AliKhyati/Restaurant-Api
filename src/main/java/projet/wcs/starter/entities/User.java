@@ -1,13 +1,14 @@
 package projet.wcs.starter.entities;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import projet.wcs.starter.models.Role;
 
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 public class User {
 
     @Id
