@@ -36,6 +36,18 @@ public class User {
     @Column(nullable = true)
     private Date updatedAt = new Date();
 
+    @ManyToOne
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     public Date getCreatedAt() {
         return createdAt;
     }
