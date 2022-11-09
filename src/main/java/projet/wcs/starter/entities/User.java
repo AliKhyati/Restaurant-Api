@@ -85,7 +85,7 @@ public class User {
 
     public User() { }
 
-    public User(String email, String password, String firstname, String lastname, String phone, Date createdAt, Date updatedAt) {
+    public User(String email, String password, String firstname, String lastname, String phone, Date createdAt, Date updatedAt, Restaurant restaurant) {
         this.email = email;
         this.password = password;
         this.firstname = firstname;
@@ -93,6 +93,7 @@ public class User {
         this.phone = phone;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.restaurant = restaurant;
     }
 
     public Integer getId() {

@@ -101,7 +101,8 @@ public class AuthController {
                 registerRequest.getLastname(),
                 registerRequest.getPhone(),
                 new Date(),
-                new Date()
+                new Date(),
+                null
         );
 
         Set<String> strRoles = registerRequest.getRole();
@@ -132,17 +133,8 @@ public class AuthController {
     }
 
     @PostMapping("/restaurant")
-    public ResponseEntity<?> registerRestaurant(@Valid @RequestBody AuthRestaurantRequest restaurantRequest) {
+    public ResponseEntity<?> registerRestaurant(@Valid @RequestBody AuthRestaurantRequest restaurantRequest, RegisterRequest registerRequest) {
 
-        User user = new User(
-                restaurantRequest.getEmail(),
-                passwordEncoder.encode(restaurantRequest.getPassword()),
-                restaurantRequest.getFirstname(),
-                restaurantRequest.getLastname(),
-                restaurantRequest.getPhone(),
-                new Date(),
-                new Date()
-        );
 
         Restaurant restaurant = new Restaurant(
                 restaurantRequest.getCompanyName(),
@@ -151,7 +143,33 @@ public class AuthController {
         );
 
         restaurantRepository.save(restaurant);
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+
+        User user = new User(
+                restaurantRequest.getEmail(),
+                passwordEncoder.encode(restaurantRequest.getPassword()),
+                restaurantRequest.getFirstname(),
+                restaurantRequest.getLastname(),
+                restaurantRequest.getPhone(),
+                new Date(),
+                new Date(),
+                restaurant
+        );
+
+
+        Set<String> strRoles = registerRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+            };
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("User and Restaurant registered successfully!"));
 
     }
 }
