@@ -5,9 +5,20 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.Date;
+public class AuthRestaurantRequest {
 
-public class AuthRequest {
+
+    @Column(nullable = false)
+    private String companyName;
+
+
+    @Column(nullable = false, unique = true)
+    private String siren;
+
+
+    @Column(nullable = false, unique = true)
+    private String kbis;
+
     @NotNull
     @Email
     @Length(min = 5, max = 50)
@@ -25,27 +36,30 @@ public class AuthRequest {
     @Column(nullable = false, length = 64)
     private String phone;
 
-    @Column(nullable = true)
-    private Date createdAt;
-
-    @Column(nullable = true)
-    private Date updatedAt;
-
-    public Date getCreatedAt() {
-        return createdAt;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCreatedAt(Date date) {
-        this.createdAt = date;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public String getSiren() {
+        return siren;
     }
 
-    public void setUpdatedAt(Date date) {
-        this.updatedAt = date;
+    public void setSiren(String siren) {
+        this.siren = siren;
     }
+
+    public String getKbis() {
+        return kbis;
+    }
+
+    public void setKbis(String kbis) {
+        this.kbis = kbis;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -56,6 +70,10 @@ public class AuthRequest {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstname() {
@@ -80,9 +98,5 @@ public class AuthRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

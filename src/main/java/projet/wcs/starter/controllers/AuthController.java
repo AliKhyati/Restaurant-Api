@@ -9,9 +9,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import projet.wcs.starter.entities.Restaurant;
 import projet.wcs.starter.entities.User;
 import projet.wcs.starter.exceptions.TokenRefreshException;
 import projet.wcs.starter.models.*;
+import projet.wcs.starter.repositories.RestaurantRepository;
 import projet.wcs.starter.repositories.RoleRepository;
 import projet.wcs.starter.repositories.UserRepository;
 import projet.wcs.starter.services.RefreshTokenService;
@@ -37,6 +39,10 @@ public class AuthController {
     RoleRepository roleRepository;
     @Autowired
     RefreshTokenService refreshTokenService;
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
@@ -95,7 +101,8 @@ public class AuthController {
                 registerRequest.getLastname(),
                 registerRequest.getPhone(),
                 new Date(),
-                new Date()
+                new Date(),
+                null
         );
 
         Set<String> strRoles = registerRequest.getRole();
@@ -123,5 +130,46 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/restaurant")
+    public ResponseEntity<?> registerRestaurant(@Valid @RequestBody AuthRestaurantRequest restaurantRequest, RegisterRequest registerRequest) {
+
+
+        Restaurant restaurant = new Restaurant(
+                restaurantRequest.getCompanyName(),
+                restaurantRequest.getSiren(),
+                restaurantRequest.getKbis()
+        );
+
+        restaurantRepository.save(restaurant);
+
+        User user = new User(
+                restaurantRequest.getEmail(),
+                passwordEncoder.encode(restaurantRequest.getPassword()),
+                restaurantRequest.getFirstname(),
+                restaurantRequest.getLastname(),
+                restaurantRequest.getPhone(),
+                new Date(),
+                new Date(),
+                restaurant
+        );
+
+
+        Set<String> strRoles = registerRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+            };
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("User and Restaurant registered successfully!"));
+
     }
 }
