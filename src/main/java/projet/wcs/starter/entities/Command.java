@@ -3,26 +3,19 @@ package projet.wcs.starter.entities;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
-public class Category {
+public class Command {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String name;
+    private Integer total;
+    private String status;
+    private String comment;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
-    private List<Item> items;
 
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
+    public Command() { }
 
     public Integer getId() {
         return id;
@@ -32,12 +25,28 @@ public class Category {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getTotal() {
+        return total;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTotal(Integer total) {
+        this.total = total;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
     }
 
     public Date getCreatedAt() {
@@ -55,6 +64,4 @@ public class Category {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-    public Category() { }
 }

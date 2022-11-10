@@ -3,26 +3,25 @@ package projet.wcs.starter.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.entities.Item;
-import projet.wcs.starter.repositories.ItemRepository;
+import projet.wcs.starter.entities.Command;
+import projet.wcs.starter.repositories.CommandRepository;
 
 import java.util.*;
 
 @RestController
-@RequestMapping("/items")
+@RequestMapping("/commands")
 @CrossOrigin
-public class ItemController {
-
-    @Autowired private ItemRepository repo;
+public class CommandController {
+    @Autowired CommandRepository repo;
 
     @GetMapping
-    public List<Item> getAll() {
+    public List<Command> getAll() {
         return repo.findAll();
     }
 
     @PostMapping("/create")
-    public Item create(@RequestBody Item item) {
-        return repo.save(item);
+    public Command create(@RequestBody Command command) {
+        return repo.save(command);
     }
 
     @DeleteMapping
@@ -36,14 +35,14 @@ public class ItemController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public Item getTable(@PathVariable Integer id) {
-        Item item = new Item();
+    public Command getTable(@PathVariable Integer id) {
+        Command command = new Command();
         if (id != null) {
-            Optional<Item> optionalItem = repo.findById(id);
-            if (optionalItem.isPresent()) {
-                item = optionalItem.get();
+            Optional<Command> optionalOrder = repo.findById(id);
+            if (optionalOrder.isPresent()) {
+                command = optionalOrder.get();
             }
         }
-        return item;
+        return command;
     }
 }
