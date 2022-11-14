@@ -1,9 +1,6 @@
-package projet.wcs.starter.entities;
+package projet.wcs.starter.dao;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -12,14 +9,15 @@ import java.util.Date;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Float price;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "category_id")
-    @JsonIgnore
     private Category category;
 
     public Category getCategory() {
@@ -64,11 +62,11 @@ public class Item {
         this.updatedAt = updatedAt;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 }

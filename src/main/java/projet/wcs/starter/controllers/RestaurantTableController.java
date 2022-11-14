@@ -3,7 +3,8 @@ package projet.wcs.starter.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.entities.RestaurantTable;
+import projet.wcs.starter.dao.RestaurantTable;
+
 import projet.wcs.starter.repositories.RestaurantTableRepository;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class RestaurantTableController {
         return repo.findAll();
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public RestaurantTable create(@RequestBody RestaurantTable table) {
         return repo.save(table);
     }

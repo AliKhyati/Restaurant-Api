@@ -1,4 +1,4 @@
-package projet.wcs.starter.entities;
+package projet.wcs.starter.dao;
 
 import jakarta.persistence.*;
 
@@ -10,10 +10,11 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, unique = true)
     private String name;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category")
     private List<Item> items;
 
     public List<Item> getItems() {

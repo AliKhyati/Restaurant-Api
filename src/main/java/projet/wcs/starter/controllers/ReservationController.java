@@ -3,7 +3,7 @@ package projet.wcs.starter.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.entities.Reservation;
+import projet.wcs.starter.dao.Reservation;
 import projet.wcs.starter.repositories.ReservationRepository;
 
 import java.util.List;

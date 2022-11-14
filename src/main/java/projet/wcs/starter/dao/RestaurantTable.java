@@ -1,30 +1,20 @@
-package projet.wcs.starter.entities;
+package projet.wcs.starter.dao;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class RestaurantTable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable = false, unique = true)
     private Integer number;
+    @Column(nullable = false)
     private Integer capacity;
     private Date createdAt = new Date();
     private Date UpdatedAt = new Date();
-    @OneToMany(mappedBy = "restaurantTable")
-    private List<Reservation> reservations;
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
     public RestaurantTable() { }
 
     public Integer getCapacity() {

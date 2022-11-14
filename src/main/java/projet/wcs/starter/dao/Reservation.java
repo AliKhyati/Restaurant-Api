@@ -1,21 +1,33 @@
-package projet.wcs.starter.entities;
+package projet.wcs.starter.dao;
 
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-public class Command {
+public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private Integer total;
-    private String status;
-    private String comment;
+    @Column(nullable = false)
+    private String clientName;
+    @Column(nullable = false)
+    private Date date;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
+    @OneToOne
+    @JoinColumn(name = "command_id")
+    private Command command;
 
-    public Command() { }
+    public Command getCommand() {
+        return command;
+    }
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public Reservation() { }
 
     public Integer getId() {
         return id;
@@ -25,28 +37,20 @@ public class Command {
         this.id = id;
     }
 
-    public Integer getTotal() {
-        return total;
+    public String getClientName() {
+        return clientName;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
     }
 
-    public String getStatus() {
-        return status;
+    public Date getDate() {
+        return date;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Date getCreatedAt() {

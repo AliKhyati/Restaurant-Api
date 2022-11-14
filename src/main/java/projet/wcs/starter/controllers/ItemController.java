@@ -1,12 +1,16 @@
 package projet.wcs.starter.controllers;
 
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.entities.Item;
+import projet.wcs.starter.dao.Item;
+import projet.wcs.starter.dto.ItemDto;
 import projet.wcs.starter.repositories.ItemRepository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/items")
@@ -14,15 +18,20 @@ import java.util.*;
 public class ItemController {
 
     @Autowired private ItemRepository repo;
+    @Autowired private ModelMapper modelMapper;
 
     @GetMapping
-    public List<Item> getAll() {
-        return repo.findAll();
+    @PreAuthorize("hasRole('USER')")
+    public List<ItemDto> getAll() {
+        return repo.findAll().stream().map(
+                item -> modelMapper.map(item, ItemDto.class)
+        ).collect(Collectors.toList());
     }
 
     @PostMapping("/create")
-    public Item create(@RequestBody Item item) {
-        return repo.save(item);
+    public ItemDto create(@RequestBody @Valid ItemDto item) {
+        Item savedItem = repo.save(modelMapper.map(item, Item.class));
+        return modelMapper.map(savedItem, ItemDto.class);
     }
 
     @DeleteMapping
@@ -36,7 +45,7 @@ public class ItemController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('USER')")
-    public Item getTable(@PathVariable Integer id) {
+    public Item getItem(@PathVariable Integer id) {
         Item item = new Item();
         if (id != null) {
             Optional<Item> optionalItem = repo.findById(id);

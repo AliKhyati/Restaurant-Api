@@ -1,4 +1,4 @@
-package projet.wcs.starter.entities;
+package projet.wcs.starter.dao;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
@@ -15,28 +15,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column(nullable = false, length = 50, unique = true)
     private String email;
-
     @Column(nullable = false, length = 64)
     private String password;
-
     @Column(nullable = false, length = 64)
     private String firstname;
-
     @Column(nullable = false, length = 64)
     private String lastname;
-
     @Column(nullable = false, length = 64)
     private String phone;
-
-    @Column(nullable = true)
     private Date createdAt = new Date();
-
-    @Column(nullable = true)
     private Date updatedAt = new Date();
-
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

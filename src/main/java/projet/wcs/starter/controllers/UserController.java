@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import projet.wcs.starter.entities.User;
+import projet.wcs.starter.dao.User;
 import projet.wcs.starter.repositories.UserRepository;
 import projet.wcs.starter.services.UserDetailsImpl;
 
