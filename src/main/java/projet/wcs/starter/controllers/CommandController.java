@@ -1,36 +1,27 @@
 package projet.wcs.starter.controllers;
 
-import org.modelmapper.ModelMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Command;
-import projet.wcs.starter.dao.Item;
 import projet.wcs.starter.dto.CommandDto;
 import projet.wcs.starter.dto.ItemDto;
 import projet.wcs.starter.repositories.CommandRepository;
+import projet.wcs.starter.services.CommandService;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/commands")
 @CrossOrigin
 public class CommandController {
     @Autowired CommandRepository repo;
-     @Autowired ModelMapper modelMapper;
+    @Autowired CommandService commandService;
 
     @GetMapping
     public List<CommandDto> getAll() {
-        return repo.findAll().stream().map(
-                command -> modelMapper.map(command, CommandDto.class)
-        ).collect(Collectors.toList());
-    }
-
-    @PostMapping("/create")
-    public CommandDto create(@RequestBody CommandDto command) {
-        Command savedItem = repo.save(modelMapper.map(command, Command.class));
-        return modelMapper.map(savedItem, CommandDto.class);
+        return commandService.getAll();
     }
 
     @DeleteMapping
@@ -54,4 +45,16 @@ public class CommandController {
         }
         return command;
     }
+
+    @PutMapping("/{id}/items")
+    public CommandDto updateItems(@PathVariable Integer id, @RequestBody @Valid List<ItemDto> items) {
+      return commandService.updateItems(id, items);
+    }
+
+    @DeleteMapping("/{commandId}/{itemId}")
+    public CommandDto deleteItem(@PathVariable Integer commandId, @PathVariable Integer itemId) {
+        return commandService.deleteItem(commandId, itemId);
+    }
+
+
 }

@@ -30,7 +30,7 @@ public class CategoryController {
         ).collect(Collectors.toList());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public CategoryDto create(@RequestBody @Valid CategoryDto category) {
         Category savedCategory = repo.save(modelMapper.map(category, Category.class));
         return modelMapper.map(savedCategory, CategoryDto.class);

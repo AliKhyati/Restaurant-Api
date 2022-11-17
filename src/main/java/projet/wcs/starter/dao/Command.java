@@ -17,14 +17,24 @@ public class Command {
     private Float total;
     @Column(nullable = false)
     private String status;
-    private String comment;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "command_item",
-            joinColumns = @JoinColumn(name = "command_id", nullable = true),
-            inverseJoinColumns = @JoinColumn(name = "item_id", nullable = true))
+            joinColumns = @JoinColumn(name = "command_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
     private List<Item> items;
+
+    @OneToMany(mappedBy = "command")
+    private List<Comment> comments;
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
 
     public List<Item> getItems() {
         return items;
@@ -66,14 +76,6 @@ public class Command {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public Date getCreatedAt() {
