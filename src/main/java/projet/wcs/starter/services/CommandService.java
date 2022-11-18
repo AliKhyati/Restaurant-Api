@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import projet.wcs.starter.dao.Command;
 import projet.wcs.starter.dao.Item;
 import projet.wcs.starter.dto.CommandDto;
@@ -41,10 +42,21 @@ public class CommandService {
         return modelMapper.map(commandDtoUpdate, CommandDto.class);
     }
 
-    public CommandDto deleteItem(@PathVariable Integer commandId, @PathVariable Integer itemId) {
+    public CommandDto updateTotal(@PathVariable Integer id, @RequestBody @Valid Float total) {
+        CommandDto commandDtoUpdate = modelMapper.map(repo.findById(id).get(), CommandDto.class);
+        commandDtoUpdate.setTotal(total);
+        repo.save(modelMapper.map(commandDtoUpdate, Command.class));
+        return modelMapper.map(commandDtoUpdate, CommandDto.class);
+    }
+
+
+    public CommandDto deleteItem(@PathVariable Integer commandId, @PathVariable Integer itemId, @RequestParam Float total) {
         CommandDto command = modelMapper.map(repo.findById(commandId).get(), CommandDto.class);
         command.getItems().removeIf(i -> i.getId() == itemId);
+        command.setTotal(total);
         repo.save(modelMapper.map(command, Command.class));
         return modelMapper.map(command, CommandDto.class);
     }
+
+
 }

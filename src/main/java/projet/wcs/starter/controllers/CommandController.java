@@ -52,8 +52,13 @@ public class CommandController {
     }
 
     @DeleteMapping("/{commandId}/{itemId}")
-    public CommandDto deleteItem(@PathVariable Integer commandId, @PathVariable Integer itemId) {
-        return commandService.deleteItem(commandId, itemId);
+    public CommandDto deleteItem(@PathVariable Integer commandId, @PathVariable Integer itemId, @RequestParam Float total) {
+        return commandService.deleteItem(commandId, itemId, total);
+    }
+
+    @PutMapping("/{id}/total")
+    public CommandDto updateTotal(@PathVariable Integer id, @RequestBody @Valid Float total) {
+        return commandService.updateTotal(id, total);
     }
 
 
