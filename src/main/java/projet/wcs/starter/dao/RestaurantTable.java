@@ -3,6 +3,7 @@ package projet.wcs.starter.dao;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class RestaurantTable {
@@ -15,6 +16,17 @@ public class RestaurantTable {
     private Integer capacity;
     private Date createdAt = new Date();
     private Date UpdatedAt = new Date();
+    @OneToMany(mappedBy = "restaurantTable")
+    private List<Reservation> reservations;
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
+
     public RestaurantTable() { }
 
     public Integer getCapacity() {
