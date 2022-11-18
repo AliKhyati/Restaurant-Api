@@ -54,4 +54,10 @@ public class CommandController {
         }
         return command;
     }
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('USER')")
+    public CommandDto update(@PathVariable int id, @RequestBody CommandDto command) {
+        Command savedItem = repo.save(modelMapper.map(command, Command.class));
+        return modelMapper.map(savedItem, CommandDto.class);
+    }
 }
