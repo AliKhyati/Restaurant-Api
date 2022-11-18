@@ -1,5 +1,8 @@
 package projet.wcs.starter.dao;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -17,6 +20,7 @@ public class Restaurant {
     @Column(nullable = false, unique = true)
     private String kbis;
     @OneToMany(mappedBy = "restaurant")
+    @JsonManagedReference
     private List<User> users;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
