@@ -4,13 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import projet.wcs.starter.dao.Category;
-import projet.wcs.starter.dao.Command;
-import projet.wcs.starter.dao.Item;
-import projet.wcs.starter.dao.Reservation;
-import projet.wcs.starter.dto.CategoryDto;
-import projet.wcs.starter.dto.CommandDto;
-import projet.wcs.starter.dto.ItemDto;
+import projet.wcs.starter.dao.*;
+import projet.wcs.starter.dto.*;
 
 @Configuration
 public class Mapper {
@@ -25,10 +20,28 @@ public class Mapper {
         propertyItem.addMappings(
                 mapping -> mapping.map(source -> source.getCategory().getId(), ItemDto::setCategoryId)
         );
-
         TypeMap<Category, CategoryDto> propertyCategory = modelMapper.createTypeMap(Category.class, CategoryDto.class);
         propertyCategory.addMappings(
                 mapping -> mapping.map(Category::getItems, CategoryDto::setItems)
+        );
+        TypeMap<Reservation, ReservationDto> propertyReservation = modelMapper.createTypeMap(Reservation.class, ReservationDto.class);
+        propertyReservation.addMappings(
+                mapping -> {
+                    mapping.map(Reservation::getCommand,ReservationDto::setCommand);
+                    mapping.map(source -> source.getRestaurantTable().getId(), ReservationDto::setRestaurantTableId);
+                }
+        );
+        TypeMap<RestaurantTable, RestaurantTableDto> propertyTable = modelMapper.createTypeMap(RestaurantTable.class, RestaurantTableDto.class);
+        propertyTable.addMappings(
+                mapping -> mapping.map(RestaurantTable::getReservations,RestaurantTableDto::setReservations)
+        );
+        TypeMap<Command, CommandDto> propertyCommand = modelMapper.createTypeMap(Command.class, CommandDto.class);
+        propertyCommand.addMappings(
+                mapping -> mapping.map(Command::getComments,CommandDto::setComments)
+        );
+        TypeMap<Comment, CommentDto> propertyComment = modelMapper.createTypeMap(Comment.class, CommentDto.class);
+        propertyComment.addMappings(
+                mapping -> mapping.map(source -> source.getCommand().getId(), CommentDto::setCommandId)
         );
 
         return modelMapper;

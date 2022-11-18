@@ -18,6 +18,17 @@ public class Reservation {
     @OneToOne
     @JoinColumn(name = "command_id")
     private Command command;
+    @ManyToOne
+    @JoinColumn(name = "restaurant_table_id")
+    private RestaurantTable restaurantTable;
+
+    public RestaurantTable getRestaurantTable() {
+        return restaurantTable;
+    }
+
+    public void setRestaurantTable(RestaurantTable restaurantTable) {
+        this.restaurantTable = restaurantTable;
+    }
 
     public Command getCommand() {
         return command;

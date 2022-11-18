@@ -1,30 +1,40 @@
 package projet.wcs.starter.controllers;
 
+import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import projet.wcs.starter.dao.Reservation;
 import projet.wcs.starter.dao.RestaurantTable;
 
+import projet.wcs.starter.dto.ReservationDto;
+import projet.wcs.starter.dto.RestaurantTableDto;
 import projet.wcs.starter.repositories.RestaurantTableRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tables")
 @CrossOrigin
 public class RestaurantTableController {
     @Autowired private RestaurantTableRepository repo;
+    @Autowired private ModelMapper modelMapper;
 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
-    public List<RestaurantTable> getAll() {
-        return repo.findAll();
+    public List<RestaurantTableDto> getAll() {
+        return repo.findAll().stream().map(
+                restaurantTable -> modelMapper.map(restaurantTable, RestaurantTableDto.class)
+        ).collect(Collectors.toList());
     }
 
-    @PostMapping("/create")
-    public RestaurantTable create(@RequestBody RestaurantTable table) {
-        return repo.save(table);
+    @PostMapping
+    public RestaurantTableDto create(@RequestBody @Valid RestaurantTableDto table) {
+        RestaurantTable savedTable = repo.save(modelMapper.map(table, RestaurantTable.class));
+        return modelMapper.map(savedTable, RestaurantTableDto.class);
     }
 
     @DeleteMapping("/{id}")

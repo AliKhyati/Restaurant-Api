@@ -1,6 +1,7 @@
 package projet.wcs.starter.dto;
 
 import jakarta.validation.constraints.NotNull;
+import projet.wcs.starter.dao.Comment;
 
 import java.util.List;
 
@@ -11,8 +12,8 @@ public class CommandDto {
     private Float total = 0f;
     @NotNull
     private String status = "Prise de commande";
-    private String comment;
     private List<ItemDto> items;
+    private List<CommentDto> comments;
 
     public int getNumber() {
         return number;
@@ -46,12 +47,12 @@ public class CommandDto {
         this.status = status;
     }
 
-    public String getComment() {
-        return comment;
+    public List<CommentDto> getComments() {
+        return comments;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComments(List<CommentDto> comments) {
+        this.comments = comments;
     }
 
     public List<ItemDto> getItems() {
