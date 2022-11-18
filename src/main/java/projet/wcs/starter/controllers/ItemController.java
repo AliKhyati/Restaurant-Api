@@ -28,14 +28,14 @@ public class ItemController {
         ).collect(Collectors.toList());
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public ItemDto create(@RequestBody @Valid ItemDto item) {
         Item savedItem = repo.save(modelMapper.map(item, Item.class));
         return modelMapper.map(savedItem, ItemDto.class);
     }
 
-    @DeleteMapping
-    public boolean delete(@RequestParam Integer id) {
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Integer id) {
         if (id != null) {
             repo.deleteById(id);
             return true;

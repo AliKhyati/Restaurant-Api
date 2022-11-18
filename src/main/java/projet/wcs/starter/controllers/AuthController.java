@@ -1,6 +1,7 @@
 package projet.wcs.starter.controllers;
 
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.*;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Restaurant;
 import projet.wcs.starter.dao.User;
+import projet.wcs.starter.dto.RestaurantDto;
+import projet.wcs.starter.dto.UserDto;
 import projet.wcs.starter.exceptions.TokenRefreshException;
 import projet.wcs.starter.models.*;
 import projet.wcs.starter.repositories.RestaurantRepository;
@@ -20,10 +23,7 @@ import projet.wcs.starter.services.RefreshTokenService;
 import projet.wcs.starter.services.UserDetailsImpl;
 import projet.wcs.starter.utils.JwtTokenUtil;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -42,6 +42,9 @@ public class AuthController {
 
     @Autowired
     RestaurantRepository restaurantRepository;
+
+    @Autowired private ModelMapper modelMapper;
+
 
 
     @PostMapping("/login")
@@ -86,26 +89,32 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto, RegisterUserRequest registerUserRequest) {
 
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
+        Restaurant restaurant = new Restaurant();
+            Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(userDto.getRestaurantId());
+            if (optionalRestaurant.isPresent()) {
+                restaurant = optionalRestaurant.get();
+            }
+
 
         User user = new User(
-                registerRequest.getEmail(),
-                passwordEncoder.encode(registerRequest.getPassword()),
-                registerRequest.getFirstname(),
-                registerRequest.getLastname(),
-                registerRequest.getPhone(),
+                userDto.getEmail(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getFirstname(),
+                userDto.getLastname(),
+                userDto.getPhone(),
                 new Date(),
                 new Date(),
-                null
+                restaurant
         );
 
-        Set<String> strRoles = registerRequest.getRole();
+        Set<String> strRoles = registerUserRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
