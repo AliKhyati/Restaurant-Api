@@ -1,5 +1,8 @@
 package projet.wcs.starter.dao;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -28,6 +31,7 @@ public class User {
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
