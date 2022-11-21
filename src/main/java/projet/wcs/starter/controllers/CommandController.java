@@ -46,6 +46,11 @@ public class CommandController {
         return command;
     }
 
+    @PutMapping("/{id}/status")
+    public CommandDto updateStatus(@PathVariable int id, @RequestBody String status) {
+       return commandService.updateStatus(id, status);
+    }
+
     @PutMapping("/{id}/items")
     public CommandDto updateItems(@PathVariable Integer id, @RequestBody @Valid List<ItemDto> items) {
       return commandService.updateItems(id, items);
@@ -60,6 +65,4 @@ public class CommandController {
     public CommandDto updateTotal(@PathVariable Integer id, @RequestBody @Valid Float total) {
         return commandService.updateTotal(id, total);
     }
-
-
 }

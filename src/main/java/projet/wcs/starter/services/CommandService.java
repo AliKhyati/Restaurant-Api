@@ -58,5 +58,12 @@ public class CommandService {
         return modelMapper.map(command, CommandDto.class);
     }
 
+    public CommandDto updateStatus(@PathVariable int id, @RequestBody String status) {
+        CommandDto command = modelMapper.map(repo.findById(id).get(), CommandDto.class);
+        command.setStatus(status);
+        repo.save(modelMapper.map(command, Command.class));
+        return modelMapper.map(command, CommandDto.class);
+    }
+
 
 }
