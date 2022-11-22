@@ -31,7 +31,6 @@ public class User {
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 

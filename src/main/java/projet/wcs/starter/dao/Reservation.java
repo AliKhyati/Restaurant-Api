@@ -15,7 +15,7 @@ public class Reservation {
     private Date date;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "command_id")
     private Command command;
     @ManyToOne
