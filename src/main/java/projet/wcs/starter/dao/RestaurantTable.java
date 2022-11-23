@@ -16,7 +16,7 @@ public class RestaurantTable {
     private Integer capacity;
     private Date createdAt = new Date();
     private Date UpdatedAt = new Date();
-    @OneToMany(mappedBy = "restaurantTable")
+    @OneToMany(mappedBy = "restaurantTable", cascade = CascadeType.ALL)
     private List<Reservation> reservations;
 
     public List<Reservation> getReservations() {

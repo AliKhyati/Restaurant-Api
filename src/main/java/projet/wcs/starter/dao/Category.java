@@ -14,7 +14,7 @@ public class Category {
     private String name;
     private Date createdAt = new Date();
     private Date updatedAt = new Date();
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Item> items;
 
     public List<Item> getItems() {
