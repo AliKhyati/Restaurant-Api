@@ -65,4 +65,9 @@ public class CommandController {
     public CommandDto updateTotal(@PathVariable Integer id, @RequestBody @Valid Float total) {
         return commandService.updateTotal(id, total);
     }
+    @GetMapping("/{id}/status")
+    public CommandDto getKitchenCommand(@PathVariable int id, String status) {
+        return commandService.getKitchenCommand();
+    }
+
 }

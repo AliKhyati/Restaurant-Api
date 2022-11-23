@@ -65,5 +65,11 @@ public class CommandService {
         return modelMapper.map(command, CommandDto.class);
     }
 
+    public CommandDto getKitchenCommand( ){
+        CommandDto kitchenCommand=modelMapper.map(repo.findByStatus("en cuisine"),CommandDto.class);
+        return modelMapper.map(kitchenCommand, CommandDto.class);
+    }
+
+
 
 }
