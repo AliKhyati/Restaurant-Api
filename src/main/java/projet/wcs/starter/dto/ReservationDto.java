@@ -5,7 +5,7 @@ import java.util.Date;
 public class ReservationDto {
     private int id;
     private String clientName;
-    private Date date = new Date();
+    private Date date;
     private CommandDto command;
     private int restaurantTableId;
 

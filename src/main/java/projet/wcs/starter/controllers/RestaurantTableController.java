@@ -24,7 +24,6 @@ public class RestaurantTableController {
     @Autowired private ModelMapper modelMapper;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
     public List<RestaurantTableDto> getAll() {
         return repo.findAll().stream().map(
                 restaurantTable -> modelMapper.map(restaurantTable, RestaurantTableDto.class)
@@ -58,4 +57,6 @@ public class RestaurantTableController {
         }
         return restaurantTable;
     }
+
+
 }
