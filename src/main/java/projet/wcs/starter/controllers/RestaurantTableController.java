@@ -46,7 +46,6 @@ public class RestaurantTableController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
     public RestaurantTable getTable(@PathVariable Integer id) {
         RestaurantTable restaurantTable = new RestaurantTable();
         if (id != null) {

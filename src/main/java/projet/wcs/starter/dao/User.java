@@ -33,6 +33,12 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+    @NotNull(message = "User roles can't be null")
+    @ManyToMany
+    @JoinTable(	name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles;
 
     public Restaurant getRestaurant() {
         return restaurant;
@@ -57,13 +63,6 @@ public class User {
     public void setUpdatedAt(Date date) {
         this.updatedAt = date;
     }
-
-    @NotNull(message = "User roles can't be null")
-    @ManyToMany
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles;
 
     public String getEmail() {
         return email;

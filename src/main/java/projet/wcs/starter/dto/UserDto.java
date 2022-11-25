@@ -1,5 +1,9 @@
 package projet.wcs.starter.dto;
 
+import projet.wcs.starter.models.Role;
+
+import java.util.Set;
+
 public class UserDto {
 
     private int id;
@@ -15,6 +19,16 @@ public class UserDto {
     private String phone;
 
     private int restaurantId;
+
+    private Set<Role> roles;
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
 
     public int getId() {
         return id;

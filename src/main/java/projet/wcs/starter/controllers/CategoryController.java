@@ -23,7 +23,6 @@ public class CategoryController {
     @Autowired private ModelMapper modelMapper;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
     public List<CategoryDto> getAll() {
         return repo.findAll().stream().map(
                 category -> modelMapper.map(category, CategoryDto.class)
@@ -46,7 +45,6 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
     public Category getCategory(@PathVariable Integer id) {
         Category category = new Category();
         if (id != null) {

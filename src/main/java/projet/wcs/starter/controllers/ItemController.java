@@ -21,7 +21,6 @@ public class ItemController {
     @Autowired private ModelMapper modelMapper;
 
     @GetMapping
-    @PreAuthorize("hasRole('USER')")
     public List<ItemDto> getAll() {
         return repo.findAll().stream().map(
                 item -> modelMapper.map(item, ItemDto.class)
@@ -44,7 +43,6 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
     public Item getItem(@PathVariable Integer id) {
         Item item = new Item();
         if (id != null) {

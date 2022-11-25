@@ -34,7 +34,6 @@ public class CommandController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
     public Command getTable(@PathVariable Integer id) {
         Command command = new Command();
         if (id != null) {

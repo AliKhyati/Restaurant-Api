@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.dao.Restaurant;
 import projet.wcs.starter.dao.User;
 import projet.wcs.starter.dto.UserDto;
 import projet.wcs.starter.repositories.UserRepository;
@@ -43,5 +42,14 @@ public class UserController {
         }else {
             throw new ObjectNotFoundException(UserDto.class.toString(), userDetails.getId());
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public boolean delete(@PathVariable Integer id) {
+        if (id != null) {
+            repo.deleteById(id);
+            return true;
+        }
+        return false;
     }
 }

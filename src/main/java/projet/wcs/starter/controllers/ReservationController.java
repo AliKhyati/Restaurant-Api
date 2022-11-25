@@ -66,7 +66,6 @@ public class ReservationController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('USER')")
     public Reservation getTable(@PathVariable Integer id) {
         Reservation reservation = new Reservation();
         if (id != null) {

@@ -45,7 +45,10 @@ public class Mapper {
         );
         TypeMap<User, UserDto> propertyUser = modelMapper.createTypeMap(User.class, UserDto.class);
         propertyUser.addMappings(
-                mapping -> mapping.map(source -> source.getRestaurant().getId(), UserDto::setRestaurantId)
+                mapping -> {
+                    mapping.map(source -> source.getRestaurant().getId(), UserDto::setRestaurantId);
+                    mapping.map(User::getRoles, UserDto::setRoles);
+                }
         );
         TypeMap<Restaurant, RestaurantDto> propertyRestaurant = modelMapper.createTypeMap(Restaurant.class, RestaurantDto.class);
         propertyRestaurant.addMappings(
