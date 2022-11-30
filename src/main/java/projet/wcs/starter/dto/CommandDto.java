@@ -1,7 +1,6 @@
 package projet.wcs.starter.dto;
 
 import jakarta.validation.constraints.NotNull;
-import projet.wcs.starter.dao.Comment;
 
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package projet.wcs.starter.dao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity

@@ -3,12 +3,8 @@ package projet.wcs.starter.controllers;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.dao.Reservation;
 import projet.wcs.starter.dao.RestaurantTable;
-
-import projet.wcs.starter.dto.ReservationDto;
 import projet.wcs.starter.dto.RestaurantTableDto;
 import projet.wcs.starter.repositories.RestaurantTableRepository;
 

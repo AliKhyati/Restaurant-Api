@@ -2,7 +2,6 @@ package projet.wcs.starter.controllers;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Command;
 import projet.wcs.starter.dto.CommandDto;

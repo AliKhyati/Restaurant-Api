@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Restaurant;
 import projet.wcs.starter.dao.User;
-import projet.wcs.starter.dto.RestaurantDto;
 import projet.wcs.starter.dto.UserDto;
 import projet.wcs.starter.exceptions.TokenRefreshException;
 import projet.wcs.starter.models.*;

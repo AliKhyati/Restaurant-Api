@@ -4,12 +4,8 @@ import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Command;
-import projet.wcs.starter.dao.Item;
 import projet.wcs.starter.dto.CommandDto;
 import projet.wcs.starter.dto.ItemDto;
 import projet.wcs.starter.repositories.CommandRepository;
@@ -65,10 +61,6 @@ public class CommandService {
         return modelMapper.map(command, CommandDto.class);
     }
 
-//    public CommandDto getKitchenCommand( ){
-//        CommandDto kitchenCommand=modelMapper.map(repo.findByStatus("en cuisine"),CommandDto.class);
-//        return modelMapper.map(kitchenCommand, CommandDto.class);
-//    }
     public List<CommandDto> getKitchenCommand() {
         return repo.findByStatus("en cuisine").stream().map(
                 kitchenCommand->modelMapper.map(kitchenCommand, CommandDto.class)

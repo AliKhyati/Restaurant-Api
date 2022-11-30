@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Comment;
 import projet.wcs.starter.dto.CommentDto;
-import projet.wcs.starter.dto.ItemDto;
 import projet.wcs.starter.repositories.CommentRepository;
 
 import java.util.List;

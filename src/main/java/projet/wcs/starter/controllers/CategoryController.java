@@ -3,7 +3,6 @@ package projet.wcs.starter.controllers;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import projet.wcs.starter.dao.Category;
 import projet.wcs.starter.dto.CategoryDto;
