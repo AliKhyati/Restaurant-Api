@@ -33,7 +33,6 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    @PreAuthorize("hasRole('ADMIN')")
     public UserDto me() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<User> user =  repo.findById(userDetails.getId());
