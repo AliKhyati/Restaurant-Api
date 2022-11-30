@@ -1,28 +1,20 @@
-package projet.wcs.starter.entities;
+package projet.wcs.starter.dto;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
 
-@Entity
-@Table(name = "products")
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false, length = 128)
+public class ItemDto {
+    private int id;
     @NotNull
-    @Length(min = 5, max = 128)
     private String name;
-
+    @NotNull
     private float price;
+    private int categoryId;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -40,5 +32,13 @@ public class Product {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(int categoryId) {
+        this.categoryId = categoryId;
     }
 }

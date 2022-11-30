@@ -2,9 +2,8 @@ package projet.wcs.starter.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import projet.wcs.starter.entities.Product;
+import projet.wcs.starter.dao.Item;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
-
+public interface ItemRepository extends JpaRepository<Item, Integer> {
 }

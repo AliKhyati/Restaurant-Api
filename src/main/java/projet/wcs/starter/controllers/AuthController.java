@@ -1,6 +1,7 @@
 package projet.wcs.starter.controllers;
 
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.authentication.*;
@@ -9,18 +10,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import projet.wcs.starter.entities.User;
+import projet.wcs.starter.dao.Restaurant;
+import projet.wcs.starter.dao.User;
+import projet.wcs.starter.dto.UserDto;
 import projet.wcs.starter.exceptions.TokenRefreshException;
 import projet.wcs.starter.models.*;
+import projet.wcs.starter.repositories.RestaurantRepository;
 import projet.wcs.starter.repositories.RoleRepository;
 import projet.wcs.starter.repositories.UserRepository;
 import projet.wcs.starter.services.RefreshTokenService;
 import projet.wcs.starter.services.UserDetailsImpl;
 import projet.wcs.starter.utils.JwtTokenUtil;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -36,6 +38,13 @@ public class AuthController {
     RoleRepository roleRepository;
     @Autowired
     RefreshTokenService refreshTokenService;
+
+    @Autowired
+    RestaurantRepository restaurantRepository;
+
+    @Autowired private ModelMapper modelMapper;
+
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid AuthRequest request) {
@@ -78,20 +87,33 @@ public class AuthController {
                         "Refresh token is not in database!"));
     }
 
-    @CrossOrigin
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody UserDto userDto, RegisterUserRequest registerUserRequest) {
 
-        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+        if (userRepository.existsByEmail(userDto.getEmail())) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
+        Restaurant restaurant = new Restaurant();
+            Optional<Restaurant> optionalRestaurant = restaurantRepository.findById(userDto.getRestaurantId());
+            if (optionalRestaurant.isPresent()) {
+                restaurant = optionalRestaurant.get();
+            }
 
-        User user = new User(registerRequest.getEmail(),
-                passwordEncoder.encode(registerRequest.getPassword()));
 
-        Set<String> strRoles = registerRequest.getRole();
+        User user = new User(
+                userDto.getEmail(),
+                passwordEncoder.encode(userDto.getPassword()),
+                userDto.getFirstname(),
+                userDto.getLastname(),
+                userDto.getPhone(),
+                new Date(),
+                new Date(),
+                restaurant
+        );
+
+        Set<String> strRoles = registerUserRequest.getRole();
         Set<Role> roles = new HashSet<>();
 
         if (strRoles == null) {
@@ -116,5 +138,46 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @PostMapping("/restaurant")
+    public ResponseEntity<?> registerRestaurant(@Valid @RequestBody AuthRestaurantRequest restaurantRequest, RegisterRequest registerRequest) {
+
+
+        Restaurant restaurant = new Restaurant(
+                restaurantRequest.getCompanyName(),
+                restaurantRequest.getSiren(),
+                restaurantRequest.getKbis()
+        );
+
+        restaurantRepository.save(restaurant);
+
+        User user = new User(
+                restaurantRequest.getEmail(),
+                passwordEncoder.encode(restaurantRequest.getPassword()),
+                restaurantRequest.getFirstname(),
+                restaurantRequest.getLastname(),
+                restaurantRequest.getPhone(),
+                new Date(),
+                new Date(),
+                restaurant
+        );
+
+
+        Set<String> strRoles = registerRequest.getRole();
+        Set<Role> roles = new HashSet<>();
+
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+            };
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("User and Restaurant registered successfully!"));
+
     }
 }
